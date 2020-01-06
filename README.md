@@ -1,7 +1,7 @@
-# preemptive-priority-scheduling
+# Preemptive Priority Scheduling
 Preemptive Priority Scheduling(OS) algorithm in Java
 
-##Introduction
+## Introduction
 Priority Scheduling is a method of scheduling processes that is based on priority. In this algorithm, the scheduler selects the tasks to work as per the priority.
 The processes with higher priority should be carried out first.
 
@@ -11,10 +11,10 @@ The difference between preemptive priority scheduling and non preemptive priorit
 
 Once all the jobs get available in the ready queue, the algorithm will behave as non-preemptive priority scheduling, which means the job scheduled will run till the completion and no preemption will be done.
 
-##Requirements
+## Requirements
 - Java SE Development Kit 8
 
-##Usage
+## Usage
 ```
 git clone https://github.com/islajd/preemptive-priority-scheduling.git
 ```
@@ -33,9 +33,9 @@ To run the project use the commands below:
 cd out/
 java PreemptiveSchedulingApplication
 ```
-##Inputs
+## Inputs
 Inputs are given in command line.
 
 Inputs templates are included in project path. (i.e. [Input](inputs.in1.txt))
-##License
+## License
 [MIT](LICENSE)
