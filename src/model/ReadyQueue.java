@@ -3,15 +3,13 @@ package model;
 import java.util.ArrayList;
 
 public class ReadyQueue {
-    private ArrayList<Process> queue;         // array list to store queue elements
+    private ArrayList<Process> queue;
 
-    // Constructor to initialize queue
     public ReadyQueue()
     {
         queue = new ArrayList<>();
     }
 
-    // Utility function to remove front element from the queue
     public Process dequeue()
     {
         Process p = null;
@@ -24,7 +22,6 @@ public class ReadyQueue {
         return p;
     }
 
-    // Utility function to return front element in the queue
     public Process peek()
     {
         if(queue.isEmpty()){
@@ -35,10 +32,9 @@ public class ReadyQueue {
         }
     }
 
-    // Utility function to add an process to the queue by it's priority
     public void enqueue(Process process)
     {
-        //case that the ready queue is empty
+        //rasti kur radha eshte bosh
         if (queue.isEmpty()) {
             queue.add(process);
         }
@@ -50,7 +46,7 @@ public class ReadyQueue {
                     break;
                 }
             }
-            //case that incoming process priority index is greater than priority of all processes
+            //rasti kur prioriteti i procesit qe shtohet eshte me i larte se i te gjithe proceseve
             if(i == queue.size() ){
                 queue.add(process);
             }
@@ -66,13 +62,11 @@ public class ReadyQueue {
         return false;
     }
 
-    // Utility function to return the size of the queue
     public int size()
     {
         return queue.size();
     }
 
-    // Utility function to check if the queue is empty or not
     public Boolean isEmpty()
     {
         return (queue.size() == 0);
