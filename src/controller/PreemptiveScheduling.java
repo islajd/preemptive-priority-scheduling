@@ -7,7 +7,7 @@ import model.ReadyQueue;
 import java.util.ArrayList;
 
 public class PreemptiveScheduling {
-    //GanttHeap
+    //Gantt
     private ArrayList<GanttRecord> gantt;
     private int currentTime;
     private int exeTime;
@@ -21,45 +21,49 @@ public class PreemptiveScheduling {
     }
 
     public ArrayList<GanttRecord> getGantt(ArrayList<Process> processes){
-
+        //inicializimi i koheve fillestare
         currentTime = this.getFirstArrivingTime(processes);
         int in = currentTime ,out = currentTime;
 
-        //add the first arriving processes in ready queue
+        //shtohen proceset e para ne radhen gati
         ArrayList<Process> processes1 = this.getFirstArrivingProcesses(processes);
 
         for(Process process : processes1){
+            //shtimi ne radhen gati eshte ne baze te prioritetit
             readyQueue.enqueue(process);
             processes.remove(process);
         }
 
+        //renditen proceset e mbetura ne varesi te kohes se mberitjes
         ArrayList<Process> orderedByArrivingTime = this.orderProcessesByArrivingTime(processes);
 
-        //while ready queue is not empty
+        //sa kohe qe radha gati nuk eshte bosh
         while(!readyQueue.isEmpty()){
-            //get the process with higher priority
+            //merret procesi me prioritetin me te madhe nga radha gati
             Process process = readyQueue.dequeue();
 
-            //Two cases to handle, first one is when there are new processes coming and the other
-            //case is when new processes aren't coming but we have to schedule processes in
-            //ready queue
+
+            //Dy raste qe duhet te merren parasysh, i pari eshte kur kemi procese te reja qe vijne dhe rasti tjeter
+            //eshte kur nuk vijne procese te reja por trajtohen ato qe jane ne radhen gati
             if(orderedByArrivingTime.size() > 0) {
                 //Handle of all arriving processes while one process has the control of CPU
                 for (int i = 0; i < orderedByArrivingTime.size(); i++) {
                     Process p = orderedByArrivingTime.get(i);
-
-                    //if the new process arriving while the cpu is taken, compare it's priority and
-                    //if it's not valid to take CPU control it will be add to ready queue
+                    //procesi i ri qe vjen kur CPU eshte e zene i krahasohet prioriteti dhe nese prioriteti eshte me
+                    //i ulet se prioriteti i procesit qe ka kontrollin atehere procesi i ri shtohet ne radhen gati
                     if (p.getArrivingTime() >= process.getArrivingTime()
                             && p.getArrivingTime() < (process.getBurstTime() + currentTime)
                             && p.getPriority() >= process.getPriority()) {
                         readyQueue.enqueue(p);
                         orderedByArrivingTime.remove(p);
                         i--;
-                    } else if (p.getArrivingTime() >= process.getArrivingTime()
+                    }
+                    //procesi i ri qe vjen kur CPU eshte e zene i krahasohet prioriteti dhe nese prioriteti eshte me
+                    //i madh se prioriteti i procesit qe ka kontrollin atehere procesi i vjeter shtohet ne radhen gati
+                    //me burst time te reduktuar, kontrollin e CPU e merr procesi i ri
+                    else if (p.getArrivingTime() >= process.getArrivingTime()
                             && p.getArrivingTime() < (process.getBurstTime() + currentTime)
                             && p.getPriority() < process.getPriority()) {
-                        //if the new process get the CPU control and the interrupted process wil be added to ready queue
                         in = currentTime;
                         currentTime = p.getArrivingTime();
                         process.reduceTime(currentTime - in);
@@ -74,12 +78,15 @@ public class PreemptiveScheduling {
 
                         break;
                     }
-                    //if any of new arriving processes doesn't take control of CPU, the first process take his time
+                    //nese kontrollohet e gjithe lista me procese te reja qe vijne dhe asnjera prej tyre nuk eshte valide
+                    //per te marre kontrollin e CPU, procesi qe ka kontrollin vijon me kohen qe i duhet
                     if (i == orderedByArrivingTime.size() - 1) {
                         in = currentTime;
                         currentTime += process.getBurstTime();
                         out = currentTime;
                         gantt.add(new GanttRecord(in, out, process.getProcessID()));
+                        //kontrollohet nese ne fund te ekzekutimit pa nderprerje te nje procesi kemi nje proces te ri qe
+                        //vjen dhe shtohet ne radhen gati
                         if(orderedByArrivingTime.size() > 0
                                 && readyQueue.isEmpty()) {
                             readyQueue.enqueue(orderedByArrivingTime.get(0));
@@ -87,7 +94,7 @@ public class PreemptiveScheduling {
                     }
                 }
             }
-            //The other case is when there is no new process coming and the ready queue have to be scheduled
+            //rasti tjeter kur nuk kemi me procese te reja qe vijojne por trajtohen vetem ato qe ndodhen ne radhen gati
             else{
                 in = currentTime;
                 currentTime += process.getBurstTime();
