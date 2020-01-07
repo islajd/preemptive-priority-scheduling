@@ -13,7 +13,6 @@ public class ReadyQueue {
     public Process dequeue()
     {
         Process p = null;
-        // check for queue underflow
         if (!isEmpty())
         {
             p = queue.get(0);
