@@ -36,6 +36,6 @@ java PreemptiveSchedulingApplication
 ## Inputs
 Inputs are given in command line.
 
-Inputs templates are included in project path. (i.e. [Input](inputs/in1.txt))
+Input templates are included in project path. (i.e. [Input](inputs/in1.txt))
 ## License
 [MIT](LICENSE)
