@@ -21,16 +21,6 @@ public class ReadyQueue {
         return p;
     }
 
-    public Process peek()
-    {
-        if(queue.isEmpty()){
-            return null;
-        }
-        else{
-            return queue.get(0);
-        }
-    }
-
     public void enqueue(Process process)
     {
         //rasti kur radha eshte bosh
@@ -59,11 +49,6 @@ public class ReadyQueue {
             return false;
         }
         return false;
-    }
-
-    public int size()
-    {
-        return queue.size();
     }
 
     public Boolean isEmpty()
